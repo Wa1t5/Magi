@@ -1,5 +1,11 @@
-#include "../lilith/stdint.hpp"
-#include "../lilith/bool.hpp"
+/*/
+ * Author: Waltz (Wa1t5)
+ * Project: Neon Genesis
+/*/
+
+#include "../lilith/include/bool.hpp"
+#include "../lilith/include/stdint.hpp"
+#include "../lilith/include/stdstr.hpp"
 
 /* Check if we are compiling to linux and give an error if so  */
 #if defined (__linux___) || (__gnu_linux__)
@@ -37,13 +43,6 @@ static inline LILITH::uInt16T VgaEntry(const unsigned char uc, const LILITH::uIn
   return  { uc, (unsigned char)color };
 }
 
-LILITH::sizeT StrLen(const char* str) {
-  LILITH::sizeT len = 0;
-  while (str[len])
-    len++;
-  return len;
-}
-
 static const LILITH::sizeT VGA_WIDTH = 80;
 static const LILITH::sizeT VGA_HEIGHT = 25;
 
@@ -60,11 +59,8 @@ void InitializeTerminal(void) {
   terminalBuffer = (LILITH::uInt16T*)0xB8000;
   terminalMaxChars = VGA_HEIGHT * VGA_WIDTH + VGA_WIDTH;
 
-  for (LILITH::sizeT y = 0; y < VGA_HEIGHT; y++) {
-    for (LILITH::sizeT x = 0; x < VGA_WIDTH; x++) {
-      const LILITH::sizeT index = y * VGA_WIDTH + x;
+  for (LILITH::sizeT index = 0; index < terminalMaxChars; index++) {
       terminalBuffer[index] = VgaEntry(' ', terminalColor);
-    }
   }
 }
 
@@ -115,21 +111,22 @@ void TerminalWrite(const char* data, LILITH::sizeT size) {
 }
 
 void TerminalWriteString(const char* data) {
-  TerminalWrite(data, StrLen(data));
+  TerminalWrite(data, LILITH::StrLen(data));
 }
 
 /* Use C linkage */
 extern "C" {
-  void kernel_main(void) {
+  
+  void first_impact(void) {
     InitializeTerminal();
-    //while (true){
+    while (true){
       TerminalWriteString("Hello, World!\n");
       TerminalWriteString("With newline support!\n");
 
       for (LILITH::sizeT i = 0; i < 9999999; i++) {
         if (i >= 9999999) TerminalWriteString("\n");
       };
-    //}
+    }
   }
     
 }

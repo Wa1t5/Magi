@@ -17,8 +17,8 @@
     devShells = eachSystem (pkgs: {
       default = pkgs.pkgsCross.i686-embedded.stdenvNoCC.mkDerivation {
         name = "neon_genesis";
-        # buildInputs = with pkgs; [];
-        nativeBuildInputs = with pkgs; [ clang lld clang-tools nasm qemu musl ];
+        version = "0.0.1";
+        nativeBuildInputs = with pkgs; [ clang lld  clang-tools qemu ];
       };
     });
   };
