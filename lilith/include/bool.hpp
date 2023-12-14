@@ -3,11 +3,12 @@
  * Project: Neon Genesis
 /*/
 
-namespace LILITH {
+#ifndef _LILITH_STD_BOOL_
+#define _LILITH_STD_BOOL_
+
+namespace LILITH::STD::BOOL {
   #define TRUE 1
   #define FALSE 0
-
-  typedef struct  {
-    int state;
-  } Bool;
 }
+
+#endif
